@@ -7,7 +7,7 @@ permalink:        pretty
 #relative_permalinks: true
 
 # Setup
-title:            Зверь-Keenetic
+title:            Pimp my Keenetic
 tagline:          'Pimp my Keenetic'
 description:      'Использование роутера ZyXEL за пределами веб-интерфейса, в т.ч. вместе с дополнительным ПО из репозитория <a href="http://entware.net" target="_blank">Entware-ng</a>.'
 url:              http://keenetic-gi.ga
