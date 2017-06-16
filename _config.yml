@@ -7,7 +7,7 @@ permalink:        pretty
 # Setup
 title:            Pimp my Keenetic
 tagline:          Стартуй! Прокачай!
-description:      'Использование роутера ZyXEL за пределами веб-интерфейса, в т.ч. вместе с ПО из репозитория <a href="http://entware.net" target="_blank">Entware-ng</a>.'
+description:      'Использование роутера ZyXEL за пределами веб-интерфейса, в т.ч. вместе с ПО из репозитория <a href="http://entware.net" target="_blank">Entware</a>.'
 url:              http://keenetic-gi.ga
 baseurl:          ""
 
