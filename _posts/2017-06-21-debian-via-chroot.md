@@ -4,12 +4,14 @@ published: true
 ## Использование Debian на роутере
 
 <p class="message">
-В итоге будет получена полноценная среда Debian, в которой не будет ни одного файла выше самой chroot-среды, т.е. сущность из busybox'а с аплетом chroot и костыли для исполнения скриптов в __/opt/etc/ndm/*.d__, которые ранее были "внешними" по отношению к Debian'у больше не будут нужны вовсе.
+В итоге будет получена полноценная среда Debian, в которой не будет ни одного файла выше самой chroot-среды, т.е. сущность из busybox'а с аплетом chroot и костыли для исполнения скриптов в /opt/etc/ndm/*.d, которые ранее были "внешними" по отношению к Debian'у больше не будут нужны вовсе.
 </p>
 
-На профильном форуме уже есть схожая [тема](https://forum.keenetic.net/topic/458-debian-stable/), которая является адаптацией [этого](https://github.com/DontBeAPadavan/chroot-debian) решения, но кинетике это можно сделать куда изящнее.
+На профильном форуме уже есть схожая [тема](https://forum.keenetic.net/topic/458-debian-stable/), которая является адаптацией [этого](https://github.com/DontBeAPadavan/chroot-debian) решения, но кинетике это можно сделать куда изящнее. Компонент OPKG сам умеет всё сам.
 
-## Подготовка на ПК
+Debian рекомендуется использовать на роутерах с достаточным количеством ресурсов процессора и памяти — Giga III, Ultra II.
+
+### Подготовка на ПК
 
 На Debian-машине подготовливаем архив с полуфабрикатом:
 ```
@@ -24,9 +26,10 @@ if [ $(id -u) -ne 0 ] ; then
 fi
 
 ### First stage of debotsrap
-#sudo debootstrap --arch mipsel --foreign --variant=minbase --include=openssh-server stable debian ftp://ftp.debian.org/$DEB_FOLDER
+debootstrap --arch mipsel --foreign --variant=minbase \
+--include=openssh-server stable debian ftp://ftp.debian.org/$DEB_FOLDER
 
-### Make f\w hook dirs, see https://github.com/ndmsystems/packages/wiki/Opkg-Component for details
+### Make f\w hook dirs
 for folder in button fs netfilter schedule time usb user wan; do
     mkdir -p $DEB_FOLDER/etc/ndm/${folder}.d
 done
@@ -84,5 +87,51 @@ chmod +x $DEB_FOLDER/etc/ndm/initrc.sh
 tar -cvzf debian_clean.tgz $DEB_FOLDER
 ```
 
+Архив надо положить в папку `/opt` на USB-носителе кинетика, где предварительно развёрнут Entware.
 
-Проба тега `/opt/etc`, который коряво отображает prose.io
+### Подготовка на роутере
+
+В SSH-сессии на роутере:
+```
+tar -xvzf debian_clean.tgz
+mount /dev/ debian/dev
+mount /proc/ debian/proc
+mount /sys/ debian/sys
+LC_ALL=C LANGUAGE=C LANG=C chroot debian /debootstrap/debootstrap --second-stage
+echo 's|PermitRootLogin without-password|PermitRootLogin yes|g' > debian/etc/ssh/sshd_config
+LC_ALL=C LANGUAGE=C LANG=C chroot debian /bin/bash
+echo -e 'zyxel\nzyxel` | passwd # set 'zyxel' password for root
+apt-get clean
+exit
+umount debian/dev
+umount debian/proc
+umount debian/sys
+rm debian/var/lib/apt/lists/*
+tar -cvzf debian_keenetic.tgz -С debian .
+```
+
+Архив `debian_keenetic.tgz` готов для многократного использования. В случае, если среда Debian стала неработоспособной, всегда можно отформатировать раздел на USB-носителе в EXT2/3/4 и начать по новой. Сохраните его на ПК.
+
+### Установка на роутере
+
+1. Подготовьте чистый раздел на USB-накопителе, предварительно отформатированный в EXT2/3/4, 
+2. Подключите носитель к кинетику,
+3. Запишите подготовленный ранее архив `debian_keenetic.tgz` в папку `install` на выбранном разделе с помощью FTP или SAMBA,
+4. В CLI роутера выполните:
+```
+opkg initrc /opt/etc/ndm/initrc.sh
+opkg chroot
+system configuration save
+```
+5. В веб-интерфейсе [выберите](http://my.keenetic.net/#usb.opkg) соответсвующий раздел в списке `Использовать накопитель` и нажмите `Применить`.
+
+На [странице](http://1my.keenetic.net/#tools.log) системного лога можно наблюдать за процессом распаковки архива и запуском службы SSH. 
+
+### Использование 
+
+Учётные данные для SSH-сессии `root:zyxel` лучше сразу поменять после первого входа. 
+
+Все файлы, ответственные за конфигурирование chroot-среды лежат в `/etc/ndm`, в частности:
+- `/etc/ndm/initrc.sh` запускает и останавливает сервисы перечисленные в `/etc/services.txt`. 
+- папки `/etc/ndm/*.d` служат для реакции на различные события прошивки, детали [здесь](https://github.com/ndmsystems/packages/wiki/Opkg-Component#hook-scripts).
+
