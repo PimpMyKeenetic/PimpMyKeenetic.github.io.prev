@@ -23,7 +23,7 @@ sass:
   sass_dir:          _sass
   style:            :compressed
 
-paginate:         5
+paginate:         1
 
 # Custom vars
 version:          3.0.0
