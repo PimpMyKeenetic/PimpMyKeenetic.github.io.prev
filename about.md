@@ -1,30 +1,35 @@
 ---
 layout: page
 title: О сайте
+published: true
 ---
 
 <p class="message">
   В первую очередь это очередная записная книжка, коих на просторах интернета вагон и маленькая тележка. Как и в большинстве случаев, изложенные инструкции писались больше для себя, нежели для кого-либо ещё. 
 </p>
 
-In the novel, *The Strange Case of Dr. Jekyll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is an upstanding and effective butler that helps you build Jekyll themes. It's made by [@mdo](https://twitter.com/mdo).
+Начиная с осени 2015-го года прошивка NDMS v.2 допускает использование внешнего функционала, не предусмотренного заводской логикой. Как один из авторов Entware, могу сказать, что разработчики прошивки отнеслись к развитию компонента OPKG с должной ответственностью и за прошедшие неполные два года довели начинания до вполне комфортной рабочей среды. Всё это время на мнение команды Entware разработчики опирались как на основной источник обратной связи и надеюсь, что в этом мы их не подвели. 
 
-There are currently two themes built on Poole:
 
-* [Hyde](http://hyde.getpoole.com)
-* [Lanyon](http://lanyon.getpoole.com)
+## Принятые умолчания
 
-Learn more and contribute on [GitHub](https://github.com/poole).
+Всё изложенное справедливо для девайсов MIPSEL с прошивкой 2.10 и выше. Из всей [линейки](https://keenetic.net/catalog/keenetic/) кинетиков на середину 2017-го года только один MIPS BE — Keenetic LTE, для него изложенное придётся адаптировать самостоятельно.
 
-## Setup
+Если не сказано иное, то лучше использовать клоны [Entware-3x](http://entware-3x.zyxmon.org/binaries/mipsel/installer/) или [Entware-keenetic](http://pkg.entware-keenetic.ru/binaries/) потому что они используют более новое ядро, которое ближе к кинетиковскому.
 
-Some fun facts about the setup of this project include:
+Подразумевается, что у вас есть базовые навыки работы в линуксе, потому что каждый раз их разжёвывать  довольно утомительно. Будьте перед собой честны: «не работает» и «не осилил» — вещи разные. Работоспособность решений проверена на себе, в большинстве случаев более чем на одном девайсе.
 
-* Built for [Jekyll](http://jekyllrb.com)
-* Developed on GitHub and hosted for free on [GitHub Pages](https://pages.github.com)
-* Coded with [Sublime Text 2](http://sublimetext.com), an amazing code editor
-* Designed and developed while listening to music like [Blood Bros Trilogy](https://soundcloud.com/maddecent/sets/blood-bros-series)
+Все материалы актуальны на момент написания и представляются без какого-либо сопровождения. Оказывать персональную поддержку или актуализировать уже изложенное из года в год не готов, извините. У кинетиков есть сообщество пользователей, поэтому поиск ответа на свой вопрос лучше начать оттуда, ссылка ниже.
 
-Have questions or suggestions? Feel free to [open an issue on GitHub](https://github.com/poole/poole/issues/new) or [ask me on Twitter](https://twitter.com/mdo).
+## Используемые материалы
 
-Thanks for reading!
+1. [Форум Keenetic Community](https://forum.keenetic.net/),
+2. [Документация](http://files.keenopt.ru/cli_manual/) по командной строке для новых прошивок,
+3. [Центр подддержки](https://help.keenetic.net/hc/ru) с отличной базой знаний, преобразившийся за последнее время,
+4. [Форум Entware](http://forums.zyxmon.org/viewforum.php?f=5) в качестве шпаргалки по опробованным решениям,
+5. [Wiki](https://bitbucket.org/padavan/rt-n56u/wiki/browse/RU) и [набор How-To](https://github.com/DontBeAPadavan/) по Padavan'овской прошивке, так же написанные мной ранее для собственных нужд,
+6. [Профильная ветка](http://forum.ixbt.com/topic.cgi?id=14:64474) Конференции iXBT.
+
+Удачи в начинаниях!
+
+Александр Рыжов
