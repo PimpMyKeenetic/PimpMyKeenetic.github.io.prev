@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 ---
 ## Использование Debian на роутере
 
