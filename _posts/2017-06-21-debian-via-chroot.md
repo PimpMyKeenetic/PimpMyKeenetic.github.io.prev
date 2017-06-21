@@ -1,13 +1,11 @@
 ---
 published: true
 ---
-## Использование Debian на роутере
-
 <p class="message">
-В итоге будет получена полноценная среда Debian, в которой не будет ни одного файла выше самой chroot-среды, т.е. сущность из busybox'а с аплетом chroot и костыли для исполнения скриптов в /opt/etc/ndm/*.d, которые ранее были "внешними" по отношению к Debian'у больше не будут нужны вовсе.
+В итоге будет получена полноценная среда Debian, в которой не будет ни одного файла выше корня chroot, т.е. сущности из busybox'а с аплетом chroot и костыли для исполнения скриптов в /opt/etc/ndm/*.d, которые ранее были "внешними" по отношению к Debian'у больше не нужны.
 </p>
 
-На профильном форуме уже есть схожая [тема](https://forum.keenetic.net/topic/458-debian-stable/), которая является адаптацией [этого](https://github.com/DontBeAPadavan/chroot-debian) решения, но кинетике это можно сделать куда изящнее. Компонент OPKG сам умеет всё сам.
+На профильном форуме уже есть схожая [тема](https://forum.keenetic.net/topic/458-debian-stable/), которая является адаптацией [этого](https://github.com/DontBeAPadavan/chroot-debian) решения, но кинетике это можно сделать куда изящнее. Компонент OPKG умеет всё сам.
 
 Debian рекомендуется использовать на роутерах с достаточным количеством ресурсов процессора и памяти — Giga III, Ultra II.
 
@@ -98,7 +96,7 @@ mount /dev/ debian/dev
 mount /proc/ debian/proc
 mount /sys/ debian/sys
 LC_ALL=C LANGUAGE=C LANG=C chroot debian /debootstrap/debootstrap --second-stage
-echo 's|PermitRootLogin without-password|PermitRootLogin yes|g' > debian/etc/ssh/sshd_config
+echo 'PermitRootLogin yes' >> debian/etc/ssh/sshd_config
 LC_ALL=C LANGUAGE=C LANG=C chroot debian /bin/bash
 echo -e 'zyxel\nzyxel` | passwd # set 'zyxel' password for root
 apt-get clean
@@ -123,15 +121,28 @@ opkg initrc /opt/etc/ndm/initrc.sh
 opkg chroot
 system configuration save
 ```
-5. В веб-интерфейсе [выберите](http://my.keenetic.net/#usb.opkg) соответсвующий раздел в списке `Использовать накопитель` и нажмите `Применить`.
+5. В веб-интерфейсе [выберите](http://my.keenetic.net/#usb.opkg) соответствующий раздел в списке `Использовать накопитель` и нажмите `Применить`.
 
-На [странице](http://1my.keenetic.net/#tools.log) системного лога можно наблюдать за процессом распаковки архива и запуском службы SSH. 
+На [странице](http://my.keenetic.net/#tools.log) системного лога можно наблюдать за процессом распаковки архива и запуском службы SSH. 
 
 ### Использование 
 
 Учётные данные для SSH-сессии `root:zyxel` лучше сразу поменять после первого входа. 
 
 Все файлы, ответственные за конфигурирование chroot-среды лежат в `/etc/ndm`, в частности:
-- `/etc/ndm/initrc.sh` запускает и останавливает сервисы перечисленные в `/etc/services.txt`. 
-- папки `/etc/ndm/*.d` служат для реакции на различные события прошивки, детали [здесь](https://github.com/ndmsystems/packages/wiki/Opkg-Component#hook-scripts).
+- `/etc/ndm/initrc.sh` запускает и останавливает сервисы перечисленные в `/etc/services.txt`,
+- папки `/etc/ndm/*.d` [служат](https://github.com/ndmsystems/packages/wiki/Opkg-Component#hook-scripts) для реакции на различные события прошивки,
+- `/etc/ndm/env_vars.sh` рекомендуется включать в состав любого вызова хук скриптов для корректировки передаваемых из хост-системы переменных среды.
+
+### Детали
+
+Из ненаписанного в документации. Если в CLI задан параметр `opkg chroot`, то после старта роутера перед выполнением стартого скрипта `/etc/ndm/initrc.sh` компонент OPKG смонтирует (предварительно создав, если их нет) ряд папок:
+
+- `/proc` в `/opt/proc`,
+- `/sys` в `/opt/sys`,
+- `/tmp` в `/opt/tmp`,
+- `/dev` в `/opt/dev` и
+- `devpts` в `/opt/dev/pts`.
+
+Ещё OPKG при необходимости перепишет в `/opt/etc` файлы `/etc/shells`, `/etc/profile`, `/tmp/passwd` и `/tmp/group`.
 
