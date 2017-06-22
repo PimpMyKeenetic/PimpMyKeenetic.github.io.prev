@@ -83,7 +83,7 @@ EOF
 chmod +x $DEB_FOLDER/etc/ndm/initrc.sh
 
 ### The second deboostrap stage should be done on router
-tar -cvzf debian_clean.tgz -C $DEB_FOLDER .
+tar -cvzf debian_clean.tgz $DEB_FOLDER
 ```
 
 Архив надо положить в папку `/opt` на USB-носителе кинетика, где предварительно развёрнут Entware.
