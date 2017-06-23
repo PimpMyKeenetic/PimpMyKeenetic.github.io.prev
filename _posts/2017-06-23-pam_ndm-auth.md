@@ -22,13 +22,10 @@ title: Использование PAM-модуля NDMS для авториза�
 ```
 # wget https://raw.githubusercontent.com/ndmsystems/entware/master/libndm/patches/010-legacy-tcp-support.patch
 # patch -p1 -i 010-legacy-tcp-support.patch
-```
-Остаётся собрать и установить `lib_ndm`:
-```
 # make install
 ```
 
-### Сборка libndm
+### Сборка pam_ndm
 
 Получение необходимых файлов:
 ```
