@@ -1,7 +1,7 @@
 ---
 published: true
 layout: post
-title: Авторизация в Debian с использование PAM-модуля NDMS
+title: Авторизация в Debian с использованием PAM-модуля NDMS
 ---
 Это пример использования учётных данных, определённых через в веб-интерфейс кинетика для авторизации пользователей в [chroot-среде Debian](/2017/06/21/debian-via-chroot/) с помощью модуля [pam_ndm](https://github.com/ndmsystems/pam_ndm).
 
