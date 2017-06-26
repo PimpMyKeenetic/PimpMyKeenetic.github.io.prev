@@ -29,7 +29,7 @@ fi
 
 ### First stage of debotsrap
 debootstrap --arch mipsel --foreign --variant=minbase \
---include=openssh-server stable debian ftp://ftp.debian.org/$DEB_FOLDER
+--include=openssh-server stable $DEB_FOLDER ftp://ftp.debian.org/debian
 
 ### Make f\w hook dirs
 for folder in button fs netfilter schedule time usb user wan; do
@@ -62,7 +62,7 @@ export USERNAME=root
 export HOME=/root
 
 ### Fix broken vars
-[ "$PWD" = "(unreachable)/" ] && export PWD=/
+[ "\$PWD" = "(unreachable)/" ] && export PWD=/
 EOF
 
 ### Make start script for chroot'ed daemons
