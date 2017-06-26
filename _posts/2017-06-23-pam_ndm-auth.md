@@ -65,6 +65,6 @@ account         sufficient      pam_ndm.so
 [I] Jun 23 17:06:05 ndm: Core::Authenticator: generating.
 [I] Jun 23 17:06:05 ndm: Core::Authenticator: user "testuser" authenticated, realm "", tag "opt".
 [I] Jun 23 17:06:05 ndm: Core::Server: client disconnected.
-[I] Jun 23 14:06:05 sshd[6259]: Accepted password for test from 192.168.6.2 port 52393 ssh2
+[I] Jun 23 14:06:05 sshd[6259]: Accepted password for testuser from 192.168.6.2 port 52393 ssh2
 [I] Jun 23 14:06:05 sshd[6259]: pam_unix(sshd:session): session opened for user testuser by (uid=0)
 ```
