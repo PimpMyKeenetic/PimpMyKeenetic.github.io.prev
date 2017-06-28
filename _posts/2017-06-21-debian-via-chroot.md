@@ -121,7 +121,7 @@ tar -cvzf debian_keenetic.tgz -С debian .
 
 1. Подготовьте чистый раздел на USB-накопителе, предварительно отформатированный в EXT2/3/4, 
 2. Подключите носитель к кинетику,
-3. Запишите подготовленный ранее архив `debian_keenetic.tgz` в папку `install` на выбранном разделе с помощью FTP или SAMBA,
+3. Запишите подготовленный ранее [архив `debian_keenetic.tgz`](/assets/2017-06/debian_keenetic.tgz) в папку `install` на выбранном разделе с помощью FTP или SAMBA,
 4. В CLI роутера выполните:
 ```
 opkg initrc /opt/etc/ndm/initrc.sh
