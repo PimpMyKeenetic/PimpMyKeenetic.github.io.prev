@@ -111,7 +111,7 @@ jq '.agent.service.target_host'
             <public>no</public>
 ...
 ```
-Анализировать это в bash'e лучше не браться, в Debian и Entware для этого есть подходящая утилита `xmlstarlet`. В команде ниже отфильтрованы интерфейсами со свойствами `connected=yes`, `state=up`, `link=up` в виде таблички:
+Анализировать это в bash'e лучше не браться, в Debian и Entware для этого есть подходящая утилита `xmlstarlet`. В команде ниже отфильтрованы сетевые интерфейсы со свойствами `connected=yes`, `state=up`, `link=up`, вывод собран в виде таблички:
 ```
 # ndmq -p 'show interface' -x | xmlstarlet sel -t \
 -m '//interface[link="up"][state="up"][connected="yes"]' \
