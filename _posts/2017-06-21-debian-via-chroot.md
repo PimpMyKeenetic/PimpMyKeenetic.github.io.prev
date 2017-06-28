@@ -79,6 +79,7 @@ if [ ! -e "\$CHROOT_SERVICES_LIST" ]; then
 fi
 
 ### Start/Stop services
+cd /root
 for item in \$(cat \$CHROOT_SERVICES_LIST); do
     /etc/init.d/\$item \$1
 done
