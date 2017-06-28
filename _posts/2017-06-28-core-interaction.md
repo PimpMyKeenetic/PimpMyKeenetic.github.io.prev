@@ -48,7 +48,8 @@ title: Взаимодействие с прошивкой
 ```
 Следственно, для его разбора можно воспользоваться утилитой `jq`, имеющейся и в Entware и в Debian:
 ```
-# curl -sX GET --digest http://admin:Passw0rd@127.0.0.1/rci/show/cloud | jq '.agent.service.target_host'
+# curl -sX GET --digest http://admin:Passw0rd@127.0.0.1/rci/show/cloud | \
+jq '.agent.service.target_host'
 "188.227.18.199"
 ```
 
@@ -63,7 +64,7 @@ title: Взаимодействие с прошивкой
 * требует предварительной сборки,
 * в chroot-среде работает не через UNIX-socket, а через deprecated TCP-запросы.
 
-Утилита зависит от `libndmq`, которую в случае с Debian сначала надо [собрать и установить](/2017/06/23/pam_ndm-auth/#%D1%81%D0%B1%D0%BE%D1%80%D0%BA%D0%B0-pam_ndm) и лишь затем собрать саму утилиту:
+Утилита зависит от `libndmq`, которую в случае с Debian предварительно надо [собрать и установить](/2017/06/23/pam_ndm-auth/#%D1%81%D0%B1%D0%BE%D1%80%D0%BA%D0%B0-pam_ndm) и лишь затем собрать саму утилиту:
 
 ```
 # cd ~
@@ -72,9 +73,9 @@ title: Взаимодействие с прошивкой
 # make 
 # strip ndmq
 # cp ndmq /usr/local/bin
-# # chown root:root /usr/local/bin/ndmq
+# chown root:root /usr/local/bin/ndmq
 ```
-Ключи вызова можно посмотреть здесь, ответ утилита возвращает в XML:
+Ключи вызова можно посмотреть [здесь](https://github.com/ndmsystems/ndmq#synopsis), ответ утилита возвращает в XML:
 ```
 # ndmq -p 'show interface' -x 
 <response>
@@ -112,10 +113,11 @@ title: Взаимодействие с прошивкой
 ```
 Анализировать это в bash'e лучше не браться, в Debian и Entware для этого есть подходящая утилита `xmlstarlet`. В команде ниже отфильтрованы интерфейсами со свойствами `connected=yes`, `state=up`, `link=up` в виде таблички:
 ```
-ndmq -p 'show interface' -x | xmlstarlet sel -t -m '//interface[link="up"][state="up"][connected="yes"]' -v '@name' -o ': ' -v 'address' -o '/' -v 'mask' -n
+# ndmq -p 'show interface' -x | xmlstarlet sel -t \
+-m '//interface[link="up"][state="up"][connected="yes"]' \
+-v '@name' -o ': ' -v 'address' -o '/' -v 'mask' -n
 WifiMaster0/WifiStation0: 192.168.6.4/255.255.255.0
 Home: 192.168.11.1/255.255.255.0
 Guest: 10.1.30.1/255.255.255.0
 ```
-
-
+Прочитали до конца эту скукотищу?! Как у вас хватило терпения?
