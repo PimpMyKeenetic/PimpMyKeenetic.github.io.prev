@@ -116,6 +116,7 @@ jq '.agent.service.target_host'
 # ndmq -p 'show interface' -x | xmlstarlet sel -t \
 -m '//interface[link="up"][state="up"][connected="yes"]' \
 -v '@name' -o ': ' -v 'address' -o '/' -v 'mask' -n
+
 WifiMaster0/WifiStation0: 192.168.6.4/255.255.255.0
 Home: 192.168.11.1/255.255.255.0
 Guest: 10.1.30.1/255.255.255.0
