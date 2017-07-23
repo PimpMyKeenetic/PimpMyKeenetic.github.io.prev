@@ -30,6 +30,7 @@ if [ $(id -u) -ne 0 ] ; then
 fi
 
 ### First stage of debotsrap
+apt-get install debootstrap
 debootstrap --arch mipsel --foreign --variant=minbase \
 --include=openssh-server stable $DEB_FOLDER ftp://ftp.debian.org/debian
 
@@ -98,6 +99,7 @@ tar -cvzf debian_clean.tgz $DEB_FOLDER
 
 В SSH-сессии на роутере:
 ```
+opkg install tar
 tar -xvzf debian_clean.tgz
 mount /dev/ debian/dev
 mount /proc/ debian/proc
@@ -105,14 +107,14 @@ mount /sys/ debian/sys
 LC_ALL=C LANGUAGE=C LANG=C chroot debian /debootstrap/debootstrap --second-stage
 echo 'PermitRootLogin yes' >> debian/etc/ssh/sshd_config
 LC_ALL=C LANGUAGE=C LANG=C chroot debian /bin/bash
-echo -e 'zyxel\nzyxel` | passwd # set 'zyxel' password for root
+echo -e 'zyxel\nzyxel' | passwd # set 'zyxel' password for root
 apt-get clean
 exit
 umount debian/dev
 umount debian/proc
 umount debian/sys
 rm debian/var/lib/apt/lists/*
-tar -cvzf debian_keenetic.tgz -С debian .
+tar -cvzf debian_keenetic.tgz -C debian .
 ```
 
 [Архив `debian_keenetic.tgz`](/assets/2017-06/debian_keenetic.tgz) готов для многократного использования. В случае, если среда Debian стала неработоспособной, всегда можно отформатировать раздел на USB-носителе в EXT2/3/4 и начать по новой. Сохраните его на ПК.
