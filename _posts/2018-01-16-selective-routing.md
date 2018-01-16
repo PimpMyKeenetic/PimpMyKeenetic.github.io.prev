@@ -56,7 +56,10 @@ server=77.88.8.2#1253
 ipset=/oip.cc/rublock
 ipset=/kinozal.tv/rublock
 ```
-В конце этого файла добавьте те домены, к которым необходимо обращаться по VPN, в моём примере это oip.cc и kinozal.tv. Оставьте в списке как минимум oip.cc, он будет полезен для проверки того, что всё работает как надо. 
+В конце этого файла добавьте те домены, к которым необходимо обращаться по VPN, в моём примере это oip.cc и kinozal.tv. Оставьте в списке как минимум первый, он будет полезен для проверки того, что всё работает как надо. 
+<p class="message">
+Обратите внимание, что с переключением на собственный DNS-сервис вы потеряете возможности встроенного. К примеру, назначение разных профилей Яндекс.DNS/SkyDNS/AdGuard для клиентов. В строчках `server=…` вы можете указать самостоятельно выбранные DNS-серверы, которые будут использоваться для разрешения DNS-имён. В примере установлены серверы Яндекс.DNS, до этого момента не замеченного в DNS-спуфинге по каким-либо спискам блокировки.  
+</p>
 
 Добавьте скрипты, которые периодически будет вызывать прошивка. Первый, `/opt/etc/ndm/fs.d/100-create_ipsets_and_routing_tables.sh`:
 
@@ -65,7 +68,7 @@ ipset=/kinozal.tv/rublock
 
 [ "$1" != "start" ] && exit 0
 
-### Create sets
+### Create set
 ipset create rublock hash:ip
 
 ### Create routing tables for marked packets
@@ -85,7 +88,7 @@ fi
     iptables -A PREROUTING -t mangle -m set --match-set rublock dst,src -j MARK --set-mark 1
 ```
 и не забудьте сделать их исполняемыми:
-```sh
+```
 chmod +x /opt/etc/ndm/fs.d/100-create_ipsets_and_routing_tables.sh
 chmod +x /opt/etc/ndm/netfilter.d/100-fwmarks.sh
 ```
@@ -97,6 +100,7 @@ chmod +x /opt/etc/ndm/netfilter.d/100-fwmarks.sh
 opkg dns-override
 system configuration save
 ```
+Встроенная в прошивку служба разрешения DNS-имён будет выключена, и вместо неё будет запущен собственный сервис `dnsmasq` из состава Entware.
 
 ### Использование 
 
@@ -113,6 +117,7 @@ system configuration save
 * Убедитесь, что ipset-набор создан и наполняется, это можно увидеть в выводе `ipset --list`,
 
 * Убедитесь, что отработало правило файервола, помечающее пакеты:
+
 ```
 iptables-save | grep rublock
 
@@ -120,6 +125,7 @@ iptables-save | grep rublock
 ```
 
 * Посмотрите, что существует таблица роутинга для помеченных пакетов:
+
 ```
  ip rule list
 0:      from all lookup local
