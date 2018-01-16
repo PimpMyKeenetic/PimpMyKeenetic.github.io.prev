@@ -127,7 +127,8 @@ iptables-save | grep rublock
 * Посмотрите, что существует таблица роутинга для помеченных пакетов:
 
 ```
- ip rule list
+ip rule list
+
 0:      from all lookup local
 220:    from all lookup 220
 1000:   from all fwmark 0x1 lookup 1
@@ -138,7 +139,8 @@ iptables-save | grep rublock
 * Убедитесь, что в нужной таблице пакеты отправляются в правильный сетевой интерфейс, соответвующий VPN-соединению:
 ```
 ip route list table 1
-default dev ngre0 scope link
+
+default dev ovpn_br0 scope link
 ```
 
 Удачи в начинаниях!
