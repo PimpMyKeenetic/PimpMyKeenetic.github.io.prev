@@ -85,7 +85,7 @@ fi
 [ "$table" != "mangle" ] && exit 0
 
 [ -z "$(iptables-save | grep rublock)" ] && \
-    iptables -A PREROUTING -t mangle -m set --match-set rublock dst,src -j MARK --set-mark 1
+    iptables -w -A PREROUTING -t mangle -m set --match-set rublock dst,src -j MARK --set-mark 1
 ```
 и не забудьте сделать их исполняемыми:
 ```
