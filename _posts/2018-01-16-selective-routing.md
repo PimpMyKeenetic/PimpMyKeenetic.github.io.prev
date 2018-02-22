@@ -70,7 +70,7 @@ ipset create rublock hash:ip
 
 ### Create routing tables for marked packets
 if [ -z "$(ip route list table 1)" ]; then
-    ip rule add fwmark 1 table 1 priority 1000
+    ip rule add fwmark 1 table 1
     ip route add default dev ovpn_br0 table 1
 fi
 ```
