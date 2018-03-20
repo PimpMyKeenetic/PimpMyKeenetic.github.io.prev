@@ -1,6 +1,7 @@
 ---
 layout: page
 title: О сайте
+sidebar_link: true
 published: true
 ---
 

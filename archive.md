@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Все статьи
+sidebar_link: true
 ---
 
 ## Архив

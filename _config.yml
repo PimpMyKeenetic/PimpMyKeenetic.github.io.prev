@@ -1,35 +1,22 @@
-# Dependencies
-highlighter:      rouge
-
-# Permalinks
-permalink:        pretty
-
-# Setup
-title:            Pimp my Keenetic
-tagline:          Стартуй! Прокачай!
-description:      'Использование роутера ZyXEL за пределами веб-интерфейса, в т.ч. вместе с ПО из репозитория <a href="http://entware.net" target="_blank">Entware</a>.'
-url:              http://keenetic-gi.ga
-baseurl:          ""
+title: Pimp My Keenetic
+tagline: Стартуй! Прокачай!
+description: 'Использование роутера за пределами веб-интерфейса, в т.ч. вместе с ПО из репозитория <a href="http://entware.net" target="_blank">Entware</a>.'
+google_analytics: 
+remote_theme: fongandrew/hydeout
 
 author:
-  name:           'Alexander Ryzhov'
-  url:            https://github.com/ryzhovau
-  email:          keenetic@ryzhov-al.ru
+  name: 'Alexander Ryzhov'
+  url: https://github.com/ryzhovau
 
-# Assets
-#
-# We specify the directory for Jekyll so we can use @imports.
-sass:
-  sass_dir:          _sass
-  style:            :compressed
+paginate: 4
 
-paginate:         1
-
-# Custom vars
-version:          3.0.0
-github:
-  repo:           https://github.com/PimpMyKeenetic/PimpMyKeenetic.github.io
-
-# Gems
-gems:
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
+  - jekyll-gist
   - jekyll-paginate
+
+#sidebar_home_link: true
+
+github:
+  repo: https://github.com/PimpMyKeenetic/PimpMyKeenetic.github.io
